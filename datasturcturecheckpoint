@@ -1,0 +1,106 @@
+ALGORITHM array_distinct_sum
+VAR
+    arr1 : ARRAY_OF INTEGER[];   // Premier tableau d'entiers
+    arr2 : ARRAY_OF INTEGER[];   // Deuxième tableau d'entiers
+    sum, i, j : INTEGER := 0;    // Variable pour la somme, les indices et un indicateur de distinctivité
+    distinct : BOOLEAN; 
+
+BEGIN
+    // Lecture des tableaux
+    FOR i FROM 0 TO arr1.length-1 DO
+        Read(arr1[i]);
+    END_FOR 
+
+    FOR j FROM 0 TO arr2.length-1 DO
+        Read(arr2[j]);
+    END_FOR
+
+    // Recherche des éléments distincts dans le premier tableau et ajout à la somme
+    FOR i FROM 0 TO arr1.length-1 DO
+        distinct := false;   // On initialise distinct à faux pour chaque élément de arr1
+
+        // Comparaison avec tous les éléments du deuxième tableau
+        FOR j FROM 0 TO arr2.length-1 STEP 1 DO
+            IF (arr1[i] = arr2[j]) THEN
+                distinct := true;   // Si un élément identique est trouvé, distinct est mis à vrai
+                break;   // On interrompt la boucle pour économiser des itérations
+            END_IF
+        END_FOR
+
+        IF (distinct = false) THEN
+            sum := sum + arr1[i];   // Si distinct est faux, l'élément est ajouté à la somme
+        END_IF
+    END_FOR
+
+    // Recherche des éléments distincts dans le deuxième tableau et ajout à la somme
+    FOR j FROM 0 TO arr2.length-1 STEP 1 DO
+        distinct := false;   // On initialise distinct à faux pour chaque élément de arr2
+
+        // Comparaison avec tous les éléments du premier tableau
+        FOR i FROM 0 TO arr1.length-1 STEP 1 DO
+            IF (arr2[j] = arr1[i]) THEN
+                distinct := true;   // Si un élément identique est trouvé, distinct est mis à vrai
+                break;   // On interrompt la boucle pour économiser des itérations
+            END_IF
+        END_FOR
+
+        IF (distinct = false) THEN
+            sum := sum + arr2[j];   // Si distinct est faux, l'élément est ajouté à la somme
+        END_IF
+    END_FOR
+
+    write("the sum of the distinct elements is", sum);   // Affichage de la somme des éléments distincts
+
+END
+
+
+
+
+Problem 2
+ALGORITHM check_orthogonality
+VAR
+    n : INTEGER;   // Nombre de paires de vecteurs
+    v1 : ARRAY_OF REAL[];   // Premier vecteur
+    v2 : ARRAY_OF REAL[];   // Deuxième vecteur
+    i, j : INTEGER;   // Indices pour les boucles
+    ps : REAL;   // Produit scalaire
+
+BEGIN
+    // Lecture du nombre de paires de vecteurs
+    Read(n);
+
+    // Boucle pour chaque paire de vecteurs
+    FOR i FROM 1 TO n DO
+        // Lecture des composantes des vecteurs
+        FOR j FROM 1 TO v1.length DO
+            Read(v1[j]);
+        END_FOR
+
+        FOR j FROM 1 TO v2.length DO
+            Read(v2[j]);
+        END_FOR
+
+        // Appel de la procédure dot_product pour calculer le produit scalaire
+        dot_product(v1, v2, ps);
+
+        // Vérification de l'orthogonalité
+        IF (ps = 0) THEN
+            write("Les vecteurs sont orthogonaux");
+        ELSE
+            write("Les vecteurs ne sont pas orthogonaux");
+        END_IF
+    END_FOR
+END
+
+PROCEDURE dot_product(v1 : ARRAY_OF REAL[], v2 : ARRAY_OF REAL[], OUT ps : REAL)
+VAR
+    i : INTEGER;
+BEGIN
+    ps := 0;   // Initialisation du produit scalaire à zéro
+
+    // Calcul du produit scalaire
+    FOR i FROM 1 TO v1.length DO
+        ps := ps + (v1[i] * v2[j]);
+    END_FOR
+END
+
